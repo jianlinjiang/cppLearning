@@ -8,7 +8,7 @@ class Singleton{
         template<typename... Args>
         static T& getInstance(Args&&... args){
             std::call_once(s_flag,[&](){
-                instance_.reset(new T(std::forward<Args>(args)...));
+                instance_.reset(new T(std::forward<Args>(args)...));    
             });
             return *instance_;
         }
@@ -22,7 +22,7 @@ class Singleton{
         Singleton& operator=(const Singleton&) = delete;
     private:
         static std::unique_ptr<T> instance_;
-        static std::once_flag s_flag;
+        static std::once_flag s_flag;   //flag，内部保存着一个state状态，默认值为0。通过原子地加载和修改state的状态，来判断是否已经
 };
 template<typename Test> std::unique_ptr<Test> Singleton<Test>::instance_;
 template<typename T> std::once_flag Singleton<T>::s_flag;
